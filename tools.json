@@ -1,0 +1,104 @@
+{
+  "tools": [
+    {
+      "name": "git",
+      "version_cmd": "git --version",
+      "category": "version control",
+      "fix": {
+        "linux": "sudo apt install git",
+        "mac": "brew install git",
+        "windows": "https://git-scm.com/downloads"
+      }
+    },
+    {
+      "name": "python",
+      "version_cmd": "python --version",
+      "category": "language",
+      "fix": {
+        "linux": "sudo apt install python3",
+        "mac": "brew install python",
+        "windows": "https://python.org/downloads"
+      }
+    },
+    {
+      "name": "pip",
+      "version_cmd": "pip --version",
+      "category": "package manager",
+      "fix": {
+        "linux": "sudo apt install python3-pip",
+        "mac": "python -m ensurepip",
+        "windows": "python -m ensurepip"
+      }
+    },
+    {
+      "name": "node",
+      "version_cmd": "node --version",
+      "category": "language",
+      "fix": {
+        "linux": "sudo apt install nodejs",
+        "mac": "brew install node",
+        "windows": "https://nodejs.org"
+      }
+    },
+    {
+      "name": "npm",
+      "version_cmd": "npm --version",
+      "category": "package manager",
+      "fix": {
+        "linux": "sudo apt install npm",
+        "mac": "brew install node",
+        "windows": "https://nodejs.org"
+      }
+    },
+    {
+      "name": "docker",
+      "version_cmd": "docker --version",
+      "category": "container",
+      "fix": {
+        "linux": "sudo apt install docker.io",
+        "mac": "brew install --cask docker",
+        "windows": "https://docs.docker.com/get-docker"
+      }
+    },
+    {
+      "name": "curl",
+      "version_cmd": "curl --version",
+      "category": "networking",
+      "fix": {
+        "linux": "sudo apt install curl",
+        "mac": "brew install curl",
+        "windows": "https://curl.se/windows"
+      }
+    },
+    {
+      "name": "gh",
+      "version_cmd": "gh --version",
+      "category": "version control",
+      "fix": {
+        "linux": "sudo apt install gh",
+        "mac": "brew install gh",
+        "windows": "https://cli.github.com"
+      }
+    },
+    {
+      "name": "make",
+      "version_cmd": "make --version",
+      "category": "build tool",
+      "fix": {
+        "linux": "sudo apt install make",
+        "mac": "xcode-select --install",
+        "windows": "https://gnuwin32.sourceforge.net/packages/make.htm"
+      }
+    },
+    {
+      "name": "wget",
+      "version_cmd": "wget --version",
+      "category": "networking",
+      "fix": {
+        "linux": "sudo apt install wget",
+        "mac": "brew install wget",
+        "windows": "https://eternallybored.org/misc/wget"
+      }
+    }
+  ]
+}
