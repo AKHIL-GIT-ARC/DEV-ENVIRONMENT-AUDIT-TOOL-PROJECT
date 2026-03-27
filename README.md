@@ -68,7 +68,7 @@ It scans your machine, checks every dev tool you care about, and gives you a cle
 
 **1 — Clone the repo**
 ```bash
-git clone https://github.com/AKHIL-GIT-ARC/dev-audit-tool.git
+git clone https://github.com/AKHIL-GIT-ARC/DEV-ENVIRONMENT-AUDIT-TOOL-PROJECT
 cd dev-audit-tool
 ```
 
