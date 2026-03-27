@@ -13,6 +13,8 @@ from rich.panel import Panel
 
 console = Console()
 
+# ── Section 1: Config Loader ──────────────────────────────────────────────────
+
 def load_tools(path="tools.json"):
     try:
         with open(path) as f:
@@ -24,7 +26,9 @@ def load_tools(path="tools.json"):
         console.print(f"[red]Error:[/red] '{path}' is not valid JSON.")
         sys.exit(1)
 
-        def get_os():
+# ── Section 2: OS Detection ───────────────────────────────────────────────────
+
+def get_os():
     system = platform.system().lower()
     if system == "darwin":
         return "mac"
@@ -36,15 +40,15 @@ def load_tools(path="tools.json"):
 def get_fix(tool, os_key):
     return tool["fix"].get(os_key, "Check the project README")
 
+# ── Section 3: Tool Checker ───────────────────────────────────────────────────
+
 def check_tool(tool):
     name = tool["name"]
     cmd = tool["version_cmd"].split()
 
-    # First check if the binary exists at all
     if shutil.which(name) is None:
         return {"status": "missing", "version": None}
 
-    # Binary exists — try to get its version
     try:
         result = subprocess.run(
             cmd,
@@ -59,8 +63,10 @@ def check_tool(tool):
         return {"status": "error", "version": "timed out"}
     except Exception as e:
         return {"status": "error", "version": f"error: {e}"}
-    
-    def run_audit(tools):
+
+# ── Section 4: Run All Checks ─────────────────────────────────────────────────
+
+def run_audit(tools):
     results = {}
     with console.status("[bold cyan]Scanning your environment...[/bold cyan]"):
         for tool in tools:
@@ -71,8 +77,9 @@ def check_tool(tool):
             }
     return results
 
+# ── Section 5: Report Printer ─────────────────────────────────────────────────
+
 def print_report(results, os_key):
-    # Group results by category
     by_category = defaultdict(list)
     for name, data in results.items():
         by_category[data["category"]].append((name, data))
@@ -82,7 +89,6 @@ def print_report(results, os_key):
     errors    = sum(1 for d in results.values() if d["status"] == "error")
     total     = len(results)
 
-    # Summary panel
     summary = (
         f"[green]{installed} installed[/green]  "
         f"[red]{missing} missing[/red]  "
@@ -92,7 +98,6 @@ def print_report(results, os_key):
     console.print(Panel(summary, title="[bold]Audit Summary[/bold]", expand=False))
     console.print()
 
-    # One table per category
     for category, items in sorted(by_category.items()):
         table = Table(
             title=f"[bold]{category.title()}[/bold]",
@@ -102,9 +107,9 @@ def print_report(results, os_key):
             expand=False,
             min_width=60
         )
-        table.add_column("Tool", style="bold", width=12)
-        table.add_column("Status", width=12)
-        table.add_column("Version / Fix", overflow="fold")
+        table.add_column("Tool",           style="bold", width=12)
+        table.add_column("Status",         width=12)
+        table.add_column("Version / Fix",  overflow="fold")
 
         for name, data in items:
             if data["status"] == "ok":
@@ -112,7 +117,7 @@ def print_report(results, os_key):
                 detail = Text(data["version"], style="dim")
             elif data["status"] == "missing":
                 status = Text("Missing", style="red")
-                fix = data["fix"].get(os_key, "See README")
+                fix    = data["fix"].get(os_key, "See README")
                 detail = Text(f"Fix: {fix}", style="yellow")
             else:
                 status = Text("Error", style="yellow")
@@ -123,7 +128,9 @@ def print_report(results, os_key):
         console.print(table)
         console.print()
 
-        def main():
+# ── Section 6: Main Entry Point ───────────────────────────────────────────────
+
+def main():
     console.print(Panel.fit(
         "[bold cyan]Dev Environment Audit Tool[/bold cyan]\n"
         "[dim]Checks your machine for common developer tools[/dim]",
@@ -133,7 +140,7 @@ def print_report(results, os_key):
     os_key = get_os()
     console.print(f"[dim]Detected OS: {os_key}[/dim]\n")
 
-    tools = load_tools("tools.json")
+    tools   = load_tools("tools.json")
     results = run_audit(tools)
     print_report(results, os_key)
 
